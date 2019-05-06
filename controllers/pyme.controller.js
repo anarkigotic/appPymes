@@ -58,7 +58,7 @@ function getPyme(req, res) {
     });
 }
 
-function updatePyme(req,res){
+function updatePyme(req, res) {
     var id = req.params.id;
     var body = req.body;
     var valores_validos = ['nit', 'razon_social', 'nombre_contacto', 'pagina_web'];
@@ -68,28 +68,46 @@ function updatePyme(req,res){
             pyme[param] = body[param]
         }
     }
-   if(Object.keys(pyme).length > 0){
-       pymeModel.findByIdAndUpdate(id,pyme,{new:true}).then(pym => {
-           return res.status(200).json({
-               ok: true,
-               mensaje: 'pyme actualozada con exito',
-               pym
-           });
-       }).catch(err => {
-           return res.status(500).json({
-               ok: false,
-               error: err
-           });
-       });
-   }else{
-    return res.status(500).json({
-        ok: false,
-        error: {erros:[
-            'ningun valor enviado o valido'
-        ]}
-    });
-   }
+    if (Object.keys(pyme).length > 0) {
+        pymeModel.findByIdAndUpdate(id, pyme, { new: true }).then(pym => {
+            return res.status(200).json({
+                ok: true,
+                mensaje: 'pyme actualozada con exito',
+                pym
+            });
+        }).catch(err => {
+            return res.status(500).json({
+                ok: false,
+                error: err
+            });
+        });
+    } else {
+        return res.status(500).json({
+            ok: false,
+            error: {
+                erros: [
+                    'ningun valor enviado o valido'
+                ]
+            }
+        });
+    }
 
+}
+
+function deletePyme(req, res) {
+    var id = req.params.id;
+    pymeModel.findByIdAndDelete(id).then(pym => {
+        return res.status(200).json({
+            ok: true,
+            mensaje: 'pyme borrada con exito',
+            pym
+        });
+    }).catch(err => {
+        return res.status(500).json({
+            ok: false,
+            error: err
+        });
+    });
 }
 
 
@@ -97,5 +115,6 @@ module.exports = {
     getAll,
     createPyme,
     getPyme,
-    updatePyme
+    updatePyme,
+    deletePyme
 }
