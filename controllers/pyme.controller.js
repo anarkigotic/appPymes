@@ -19,7 +19,7 @@ function getAll(req, res) {
 
 function createPyme(req, res) {
     var body = req.body;
-    var valores_validos = ['nit', 'razon_social', 'nombre_contacto', 'pagina_web'];
+    var valores_validos = ['nit', 'razon_social', 'nombre_contacto', 'pagina_web', 'mayorista'];
     var pyme = {};
     for (let param in body) {
         if (valores_validos.includes(param)) {
@@ -61,7 +61,7 @@ function getPyme(req, res) {
 function updatePyme(req, res) {
     var id = req.params.id;
     var body = req.body;
-    var valores_validos = ['nit', 'razon_social', 'nombre_contacto', 'pagina_web'];
+    var valores_validos = ['nit', 'razon_social', 'nombre_contacto', 'pagina_web', 'mayorista'];
     var pyme = {};
     for (let param in body) {
         if (valores_validos.includes(param)) {

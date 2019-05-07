@@ -4,21 +4,26 @@ var Schema = mongoose.Schema;
 
 
 var pymeSchema = new Schema({
-    nit: { 
-        type: String, 
-        unique:true,
-        required: [true, 'el nit es necesario']
-     },
-    razon_social: { 
-        type: String, 
-        required: [true, 'la razon social es necesaria']
-     },
-    nombre_contacto: { 
+    nit: {
         type: String,
-        required: [true, 'El nombre del contacto es necesario'] 
+        unique: true,
+        required: [true, 'el nit es necesario']
     },
-    pagina_web:{
-        type:String
+    razon_social: {
+        type: String,
+        required: [true, 'la razon social es necesaria']
+    },
+    nombre_contacto: {
+        type: String,
+        required: [true, 'El nombre del contacto es necesario']
+    },
+    pagina_web: {
+        type: String
+    },
+    mayorista: {
+        type: Boolean,
+        default: false,
+        required: true
     }
 });
 
