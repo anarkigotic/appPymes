@@ -18,14 +18,25 @@ function getAll(req, res) {
 }
 
 function createPyme(req, res) {
+    console.log(1);
+
     var body = req.body;
+    console.log(body);
+
     var valores_validos = ['nit', 'razon_social', 'nombre_contacto', 'pagina_web', 'mayorista'];
     var pyme = {};
     for (let param in body) {
+        console.log(param);
+
         if (valores_validos.includes(param)) {
-            pyme[param] = body[param]
+            console.log(param);
+
+            pyme[param] = body[param];
+            console.log(param);
+
         }
     }
+
     var pymemodel = new pymeModel(pyme);
     pymemodel.save().then(pym => {
         return res.status(200).json({
