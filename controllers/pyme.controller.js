@@ -26,13 +26,10 @@ function createPyme(req, res) {
     var valores_validos = ['nit', 'razon_social', 'nombre_contacto', 'pagina_web', 'mayorista'];
     var pyme = {};
     for (let param in body) {
-        console.log(param);
 
         if (valores_validos.includes(param)) {
-            console.log(param);
 
             pyme[param] = body[param];
-            console.log(param);
 
         }
     }
