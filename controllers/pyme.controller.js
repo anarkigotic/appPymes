@@ -1,5 +1,7 @@
 'use strict'
 var pymeModel = require('../models/pyme.module');
+var bcrypt = require('bcryptjs');
+
 
 function getAll(req, res) {
     pymeModel.find({}).then(pyme => {
@@ -18,22 +20,21 @@ function getAll(req, res) {
 }
 
 function createPyme(req, res) {
-    console.log(1);
-
     var body = req.body;
-    console.log(body);
-
     var valores_validos = ['nit', 'razon_social', 'nombre_contacto', 'pagina_web', 'mayorista'];
     var pyme = {};
     for (let param in body) {
-
         if (valores_validos.includes(param)) {
-
             pyme[param] = body[param];
-
         }
     }
-
+    pyme.password = body.password ? bcrypt.hashSync(body.password, 10) : false;
+    if (!pyme.password) {
+        return res.status(500).json({
+            ok: false,
+            error: { errors: ["la contraseña es obligatoria"] }
+        });
+    }
     var pymemodel = new pymeModel(pyme);
     pymemodel.save().then(pym => {
         return res.status(200).json({
@@ -118,11 +119,48 @@ function deletePyme(req, res) {
     });
 }
 
+function login(req, res) {
+    var body = req.body;
+    pymeModel.findOne({ nit: body.nit }).then(usr => {
+        if (!usr) {
+            return res.status(400).json({
+                ok: true,
+                message: 'credenciales incorrectas - nit',
+                errors: usr
+            })
+
+        }
+        if (!bcrypt.compareSync(body.password, usr.password)) {
+            return res.status(400).json({
+                ok: true,
+                message: 'credenciales incorrectas -password',
+                errors: null
+            });
+        }
+        usr.password = ':)';
+        res.status(200).json({
+            ok: true,
+            message: usr,
+            id: usr._id
+
+        })
+    }).catch(err => {
+        res.status(500).json({
+            ok: true,
+            message: 'Error al buscar usuarios',
+            errors: err
+        })
+
+    });
+
+}
+
 
 module.exports = {
     getAll,
     createPyme,
     getPyme,
     updatePyme,
-    deletePyme
+    deletePyme,
+    login
 }

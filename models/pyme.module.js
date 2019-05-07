@@ -20,6 +20,10 @@ var pymeSchema = new Schema({
     pagina_web: {
         type: String
     },
+    password: {
+        type: String,
+        required: [true, "El password necesaria"]
+    },
     mayorista: {
         type: Boolean,
         default: false,
