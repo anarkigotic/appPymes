@@ -21,12 +21,21 @@ function getAll(req, res) {
 
 function createPyme(req, res) {
     var body = req.body;
-    var valores_validos = ['nit', 'razon_social', 'nombre_contacto', 'pagina_web', 'mayorista'];
+    var valores_validos = ['nit','actividades','numero_contacto','numero_contacto','razon_social', 'nombre_contacto','region','sector', 'pagina_web', 'mayorista'];
     var pyme = {};
     for (let param in body) {
         if (valores_validos.includes(param)) {
             pyme[param] = body[param];
         }
+    }
+    if(pyme.actividades == undefined){
+        return res.status(500).json({
+            ok: false,
+            error: [
+                {
+                    "message":"por lo menos tiene que tener una actividad"
+                }
+            ]})
     }
     pyme.password = body.password ? bcrypt.hashSync(body.password, 10) : false;
     if (!pyme.password) {
@@ -70,7 +79,7 @@ function getPyme(req, res) {
 function updatePyme(req, res) {
     var id = req.params.id;
     var body = req.body;
-    var valores_validos = ['nit', 'razon_social', 'nombre_contacto', 'pagina_web', 'mayorista'];
+    var valores_validos = ['nit','actividades','numero_contacto','numero_contacto','razon_social', 'nombre_contacto','region','sector', 'pagina_web', 'mayorista'];
     var pyme = {};
     for (let param in body) {
         if (valores_validos.includes(param)) {

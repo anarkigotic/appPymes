@@ -24,11 +24,28 @@ var pymeSchema = new Schema({
         type: String,
         required: [true, "El password necesaria"]
     },
+    region:{
+        type:String
+    },
+    numero_contacto:{
+        type:String
+    },
+    sector:{
+        type:String,
+        required:[true,"el sector es obligatorio"]
+    },
     mayorista: {
         type: Boolean,
         default: false,
         required: true
-    }
+    },
+    actividades:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            require:true
+        }
+    ]
+
 });
 
 pymeSchema.plugin(uniqueValidator, {
